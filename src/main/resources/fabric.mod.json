@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "asterism",
+  "version": "${version}",
+  "name": "Asterism",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/asterism/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "org.aussiebox.asterism.client.AsterismDataGenerator"
+    ],
+    "client": [
+      "org.aussiebox.asterism.client.AsterismClient"
+    ],
+    "main": [
+      "org.aussiebox.asterism.Asterism"
+    ],
+    "circ_item_groups": [
+      "org.aussiebox.asterism.item.group.AsterismItemGroup"
+    ]
+  },
+  "mixins": [
+    "asterism.mixins.json",
+    {
+      "config": "asterism.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
