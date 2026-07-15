@@ -17,5 +17,9 @@ public class EnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("itemGroup.asterism", "Asterism");
         translationBuilder.add("item.asterism.astral_wyrmtooth", "Astral Wyrmtooth");
         translationBuilder.add("item.asterism.astral_wyrmtooth.tooltip", "Jade's weapon of choice");
+
+        translationBuilder.add("death.attack.astral_wyrmtooth", "%1$s was sliced to pieces");
+        translationBuilder.add("death.attack.astral_wyrmtooth.player", "%1$s was sliced to pieces by %2$s");
+        translationBuilder.add("death.attack.astral_wyrmtooth.player", "%1$s was sliced to pieces by %2$s using %3$s");
     }
 }
