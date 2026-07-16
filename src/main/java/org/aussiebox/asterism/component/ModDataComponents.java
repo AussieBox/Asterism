@@ -1,5 +1,6 @@
 package org.aussiebox.asterism.component;
 
+import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -17,5 +18,9 @@ public class ModDataComponents {
     private static <T> ComponentType<T> register(String name, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, Asterism.id(name),
                 builderOperator.apply(ComponentType.builder()).build());
+    }
+
+    public static void init() {
+        ComponentTooltipAppenderRegistry.addLast(TOOLTIP_LINE);
     }
 }

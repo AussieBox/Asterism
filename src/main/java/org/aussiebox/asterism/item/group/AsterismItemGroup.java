@@ -6,6 +6,7 @@ import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.aussiebox.asterism.Asterism;
+import org.aussiebox.asterism.item.ModItems;
 import org.aussiebox.circuit_core.helper.itemgroup.ItemGroupSupplier;
 
 public class AsterismItemGroup implements ItemGroupSupplier {
@@ -16,6 +17,6 @@ public class AsterismItemGroup implements ItemGroupSupplier {
 
     @Override
     public ItemGroup.Builder getGroupBuilder() {
-        return FabricItemGroup.builder().displayName(Text.translatable("itemGroup.asterism")).icon(Items.AIR::getDefaultStack);
+        return FabricItemGroup.builder().displayName(Text.translatable("itemGroup.asterism")).icon(ModItems.ASTRAL_WYRMTOOTH.build()::getDefaultStack);
     }
 }

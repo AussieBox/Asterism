@@ -1,6 +1,7 @@
 package org.aussiebox.asterism.cca;
 
 import net.minecraft.entity.player.PlayerEntity;
+import org.aussiebox.asterism.cca.player.PlayerComponent;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 import org.ladysnake.cca.api.v3.entity.RespawnCopyStrategy;
