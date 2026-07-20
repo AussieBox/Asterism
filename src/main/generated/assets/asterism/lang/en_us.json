@@ -1,4 +1,7 @@
 {
+  "death.attack.astral_wyrmtooth": "%1$s was sliced to pieces",
+  "death.attack.astral_wyrmtooth.item": "%1$s was sliced to pieces by %2$s using %3$s",
+  "death.attack.astral_wyrmtooth.player": "%1$s was sliced to pieces by %2$s",
   "item.asterism.astral_wyrmtooth": "Astral Wyrmtooth",
   "item.asterism.astral_wyrmtooth.tooltip": "Jade's weapon of choice",
   "itemGroup.asterism": "Asterism"

@@ -1,0 +1,6 @@
+{
+  "parent": "asterism:item/parent/scythe",
+  "textures": {
+    "layer0": "asterism:item/astral_wyrmtooth-base_hand"
+  }
+}

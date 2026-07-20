@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "asterism:item/astral_wyrmtooth-upgraded"
+  }
+}

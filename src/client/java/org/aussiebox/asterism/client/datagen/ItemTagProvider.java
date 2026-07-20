@@ -17,7 +17,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     @Override
     protected void configure(RegistryWrapper.@NonNull WrapperLookup registries) {
         this.getTagBuilder(AsterismConstants.HELLFIRE_TOOL_MATERIALS)
-                .add(Asterism.id("hellsteel_ingot"))
+//                .add(Asterism.id("hellsteel_ingot"))
                 .build();
     }
 }

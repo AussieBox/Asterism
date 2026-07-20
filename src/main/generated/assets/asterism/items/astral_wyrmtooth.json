@@ -1,0 +1,56 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:select",
+          "cases": [
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "asterism:item/astral_wyrmtooth-upgraded"
+              },
+              "when": [
+                "gui",
+                "ground",
+                "fixed",
+                "on_shelf"
+              ]
+            }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "asterism:item/astral_wyrmtooth-upgraded_hand"
+          },
+          "property": "minecraft:display_context"
+        },
+        "when": true
+      }
+    ],
+    "component": "asterism:interstellar_decimation_upgrade",
+    "fallback": {
+      "type": "minecraft:select",
+      "cases": [
+        {
+          "model": {
+            "type": "minecraft:model",
+            "model": "asterism:item/astral_wyrmtooth-base"
+          },
+          "when": [
+            "gui",
+            "ground",
+            "fixed",
+            "on_shelf"
+          ]
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "asterism:item/astral_wyrmtooth-base_hand"
+      },
+      "property": "minecraft:display_context"
+    },
+    "property": "minecraft:component"
+  }
+}

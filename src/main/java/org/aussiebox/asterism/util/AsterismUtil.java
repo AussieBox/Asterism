@@ -1,7 +1,18 @@
 package org.aussiebox.asterism.util;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+
+import java.util.function.Consumer;
 
 public class AsterismUtil {
     public static MutableText createMovingGradient(String text, int colorStart, int colorEnd) {
@@ -36,5 +47,33 @@ public class AsterismUtil {
         int g = (int)((float)g1 + (float)(g2 - g1) * progress);
         int b = (int)((float)b1 + (float)(b2 - b1) * progress);
         return (r << 16) + (g << 8) + b;
+    }
+
+    public static void addEnchantment(PlayerEntity player, ItemStack stack, RegistryKey<Enchantment> enchantmentKey, int level) {
+        RegistryEntry<Enchantment> enchantment = player.getRegistryManager()
+                .getOrThrow(RegistryKeys.ENCHANTMENT)
+                .getEntry(enchantmentKey.getValue())
+                .orElseThrow();
+        if (stack.getEnchantments().getEnchantments().contains(enchantment)) return;
+        stack.addEnchantment(enchantment, level);
+    }
+
+    public static void removeEnchantment(PlayerEntity player, ItemStack stack, RegistryKey<Enchantment> enchantmentKey) {
+        RegistryEntry<Enchantment> enchantment = player.getRegistryManager()
+                .getOrThrow(RegistryKeys.ENCHANTMENT)
+                .getEntry(enchantmentKey.getValue())
+                .orElseThrow();
+        if (!stack.getEnchantments().getEnchantments().contains(enchantment)) return;
+        stack.apply(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT, component -> {
+            ItemEnchantmentsComponent.Builder builder = new ItemEnchantmentsComponent.Builder(component);
+            builder.remove(enchant -> enchant.equals(enchantment));
+            return builder.build();
+        });
+    }
+
+    public static void executeForAllOfItem(PlayerEntity player, Item item, Consumer<ItemStack> execute) {
+        player.getInventory().getMainStacks().stream()
+                .filter(itemStack -> itemStack.isOf(item))
+                .forEach(execute);
     }
 }
