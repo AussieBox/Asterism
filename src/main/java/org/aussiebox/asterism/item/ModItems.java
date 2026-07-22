@@ -22,7 +22,6 @@ import org.aussiebox.circuit_core.helper.item.ItemRegistry;
 import org.aussiebox.circuit_core.helper.item.ItemSupplier;
 
 import java.util.Collections;
-import java.util.UUID;
 
 public class ModItems implements ItemSupplier {
     public static final ToolMaterial HELLFIRE = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 3554, 10.5F, 3.5F, 20, TagKey.of(RegistryKeys.ITEM, Asterism.id("astral_tool_materials")));
@@ -33,8 +32,8 @@ public class ModItems implements ItemSupplier {
             new Item.Settings()
                     .component(ModDataComponentTypes.TOOLTIP_LINE, new TooltipLineComponent(() -> Collections.singletonList(Text.translatable("item.asterism.astral_wyrmtooth.tooltip").withColor(Colors.LIGHT_GRAY))))
                     .component(DataComponentTypes.DAMAGE_TYPE, new LazyRegistryEntryReference<>(RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Asterism.id("astral_wyrmtooth"))))
-                    .component(DataComponentTypes.WEAPON, new WeaponComponent(1, 1.0F))
-                    .sword(HELLFIRE, 3.0F, -2.4F),
+                    .sword(HELLFIRE, 3.0F, -2.4F)
+                    .component(DataComponentTypes.WEAPON, new WeaponComponent(1, 1.0F)),
             null
     ));
 

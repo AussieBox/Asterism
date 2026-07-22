@@ -39,6 +39,7 @@ public class PlayerComponent implements AutoSyncedComponent, ServerTickingCompon
     @Getter private int souls;
     @Getter private int syncedWyrmtoothTier;
     @Getter private int wyrmtoothRegenTicks;
+    @Getter private int wyrmtoothAbsTicks;
 
     public PlayerComponent(PlayerEntity player) {
         this.player = player;
@@ -58,18 +59,27 @@ public class PlayerComponent implements AutoSyncedComponent, ServerTickingCompon
 
     @Override
     public void serverTick() {
+        StopJade:
         if (player instanceof ExclusiveItemHolder holder && holder.circuitCore$itemAllowed(ModItems.ASTRAL_WYRMTOOTH.build())) {
             for (AstralWyrmtoothTier tier : AsterismConstants.AstralWyrmtooth.tiers) {
+                if (souls >= AsterismConstants.SOUL_UPGRADE_REQUIREMENT && !tier.upgraded && syncedWyrmtoothTier < 7) {
+                    tier.disable.accept(player);
+                    continue;
+                }
                 if (AsterismConstants.AstralWyrmtooth.tiers.getLast() == tier) {
-                    if (souls < tier.soulRequirement) tier.disable.accept(player);
+                    if (souls < tier.soulRequirement) {
+                        tier.disable.accept(player);
+                        break StopJade;
+                    }
                     else if (syncedWyrmtoothTier != AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier) || tier.runAlways) {
-                        if (tier.enable.apply(player))
-                            setSyncedWyrmtoothTier(AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier));
+                        if (tier.enable.apply(player)) setSyncedWyrmtoothTier(AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier));
                     }
                 } else {
                     AstralWyrmtoothTier next = AsterismConstants.AstralWyrmtooth.tiers.get(AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier) + 1);
-                    if (souls < tier.soulRequirement || (souls >= next.soulRequirement && tier.removeOnHigherTiers))
+                    if (souls < tier.soulRequirement || (souls >= next.soulRequirement && tier.removeOnHigherTiers)) {
                         tier.disable.accept(player);
+                        break StopJade;
+                    }
                     else if (syncedWyrmtoothTier != AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier) || tier.runAlways) {
                         if (tier.enable.apply(player))
                             setSyncedWyrmtoothTier(AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier));
@@ -77,11 +87,19 @@ public class PlayerComponent implements AutoSyncedComponent, ServerTickingCompon
                 }
             }
 
-            if (souls >= 15) {
+            if (souls >= 15 && souls < 30 || souls >= 44) {
                 wyrmtoothRegenTicks++;
                 if (wyrmtoothRegenTicks >= 50) {
                     player.heal(1.0F);
                     wyrmtoothRegenTicks = 0;
+                }
+            }
+
+            if (souls >= 44) {
+                wyrmtoothAbsTicks++;
+                if (wyrmtoothAbsTicks >= 300) {
+                    if (player.getAbsorptionAmount() < 4.0F) player.setAbsorptionAmount(4.0F);
+                    wyrmtoothAbsTicks = 0;
                 }
             }
         }

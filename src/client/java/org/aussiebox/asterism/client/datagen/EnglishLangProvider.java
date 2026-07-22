@@ -16,6 +16,7 @@ public class EnglishLangProvider extends FabricLanguageProvider {
     public void generateTranslations(RegistryWrapper.@NonNull WrapperLookup registryLookup, @NonNull TranslationBuilder translationBuilder) {
         translationBuilder.add("itemGroup.asterism", "Asterism");
         translationBuilder.add("item.asterism.astral_wyrmtooth", "Astral Wyrmtooth");
+        translationBuilder.add("item.asterism.astral_wyrmtooth.upgraded", "⯪☽ Interstellar Decimation ☯★");
         translationBuilder.add("item.asterism.astral_wyrmtooth.tooltip", "Jade's weapon of choice");
 
         translationBuilder.add("death.attack.astral_wyrmtooth", "%1$s was sliced to pieces");

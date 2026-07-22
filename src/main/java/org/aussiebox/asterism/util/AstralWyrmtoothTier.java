@@ -11,12 +11,14 @@ public class AstralWyrmtoothTier {
     public final Consumer<PlayerEntity> disable;
     public final boolean removeOnHigherTiers;
     public final boolean runAlways;
+    public final boolean upgraded;
 
-    public AstralWyrmtoothTier(int soulRequirement, Function<PlayerEntity, Boolean> enable, Consumer<PlayerEntity> disable, boolean removeOnHigherTiers, boolean runAlways) {
+    public AstralWyrmtoothTier(int soulRequirement, Function<PlayerEntity, Boolean> enable, Consumer<PlayerEntity> disable, boolean removeOnHigherTiers, boolean runAlways, boolean upgraded) {
         this.soulRequirement = soulRequirement;
         this.enable = enable;
         this.disable = disable;
         this.removeOnHigherTiers = removeOnHigherTiers;
         this.runAlways = runAlways;
+        this.upgraded = upgraded;
     }
 }
