@@ -22,5 +22,8 @@ public class EnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("death.attack.astral_wyrmtooth", "%1$s was sliced to pieces");
         translationBuilder.add("death.attack.astral_wyrmtooth.player", "%1$s was sliced to pieces by %2$s");
         translationBuilder.add("death.attack.astral_wyrmtooth.item", "%1$s was sliced to pieces by %2$s using %3$s");
+
+        translationBuilder.add("command.asterism.main.set_souls.error", "Failed to set Souls for player");
+        translationBuilder.add("command.asterism.main.set_souls.success", "Set Souls of %1$s to %2$s");
     }
 }

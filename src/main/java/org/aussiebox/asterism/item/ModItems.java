@@ -32,7 +32,7 @@ public class ModItems implements ItemSupplier {
             new Item.Settings()
                     .component(ModDataComponentTypes.TOOLTIP_LINE, new TooltipLineComponent(() -> Collections.singletonList(Text.translatable("item.asterism.astral_wyrmtooth.tooltip").withColor(Colors.LIGHT_GRAY))))
                     .component(DataComponentTypes.DAMAGE_TYPE, new LazyRegistryEntryReference<>(RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Asterism.id("astral_wyrmtooth"))))
-                    .sword(HELLFIRE, 3.0F, -2.4F)
+                    .sword(HELLFIRE, 3.5F, -2.4F)
                     .component(DataComponentTypes.WEAPON, new WeaponComponent(1, 1.0F)),
             null
     ));

@@ -144,13 +144,14 @@ public interface AsterismConstants {
             AsterismUtil.executeForAllOfItem(player, ModItems.ASTRAL_WYRMTOOTH.build(), stack -> {
                 stack.set(ModDataComponentTypes.DECIMATION_UPGRADE, true);
                 stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.asterism.astral_wyrmtooth.upgraded"));
+                stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, AsterismUtil.createSwordAttributeModifiers(5.0F, -3.1F, ModItems.HELLFIRE.attackDamageBonus()));
             });
             return true;
         }, player -> {
             AsterismUtil.executeForAllOfItem(player, ModItems.ASTRAL_WYRMTOOTH.build(), stack -> {
                 stack.set(ModDataComponentTypes.DECIMATION_UPGRADE, false);
                 stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.asterism.astral_wyrmtooth"));
-//                stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, AsterismUtil.createSwordAttributeModifiers(, ModItems.HELLFIRE.attackDamageBonus()));
+                stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, AsterismUtil.createSwordAttributeModifiers(3.5F, -2.4F, ModItems.HELLFIRE.attackDamageBonus()));
             });
         }, false, true, true);
 
@@ -185,7 +186,7 @@ public interface AsterismConstants {
                 EntityAttributeModifier mod = movementSpeed.getModifier(SPEED);
                 if (mod != null && mod.value() == -0.30F) movementSpeed.removeModifier(SPEED);
             }
-        }, true, false, true);
+        }, false, false, true);
 
         // Ignore Tier 8 as True Tier 7 fills its slot (and it just removes Tier 7's effects anyway)
 
