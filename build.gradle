@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.16-SNAPSHOT'
+    id 'fabric-loom' version '1.17-SNAPSHOT'
     id 'maven-publish'
     id 'io.freefair.lombok' version '9.0.0'
 }
@@ -51,6 +51,10 @@ repositories {
         url = "https://repo.redlance.org/public"
     }
     maven {
+        name = "RiftRealms"
+        url = "https://maven.riftrealms.de/releases"
+    }
+    maven {
         name = "DevAuth"
         url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1"
     }
@@ -69,6 +73,7 @@ dependencies {
 
     modImplementation "software.bernie.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}"
     modImplementation "com.github.AussieBox:Circuit-Core:${project.minecraft_version}~${project.circuit_core_version}"
+    modImplementation "de.nexusrealms:nebulon:0.1.0-beta+mc1.21.11.20260715.10"
 
     modRuntimeOnly "me.djtheredstoner:DevAuth-${project.devauth_module}:${project.devauth_version}"
 }

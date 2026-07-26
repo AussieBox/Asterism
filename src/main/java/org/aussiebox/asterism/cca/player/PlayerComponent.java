@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.util.math.Vec2f;
 import org.aussiebox.asterism.Asterism;
 import org.aussiebox.asterism.AsterismConstants;
 import org.aussiebox.asterism.item.ModItems;
@@ -14,9 +15,15 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class PlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<PlayerComponent> KEY = ComponentRegistry.getOrCreate(Asterism.id("player_component"), PlayerComponent.class);
     private final PlayerEntity player;
+
+    @Getter private List<Vec2f> starHudOffsets = new ArrayList<>();
 
     @Getter private int souls;
     @Getter private int syncedWyrmtoothTier = -1;
@@ -36,12 +43,20 @@ public class PlayerComponent implements AutoSyncedComponent, ServerTickingCompon
     }
 
     public void setSyncedWyrmtoothTier(int tier) {
-        this.syncedWyrmtoothTier = Math.clamp(tier, 0, 100);
+        this.syncedWyrmtoothTier = Math.clamp(tier, 0, AsterismConstants.AstralWyrmtooth.tiers.size()-1);
+
+        this.starHudOffsets.clear();
+        AstralWyrmtoothTier active = AsterismConstants.AstralWyrmtooth.tiers.get(syncedWyrmtoothTier);
+        if (AsterismConstants.AstralWyrmtooth.tiers.getLast() == active) return;
+        AstralWyrmtoothTier next = AsterismConstants.AstralWyrmtooth.tiers.get(syncedWyrmtoothTier+1);
+        int diff = Math.abs(next.soulRequirement()-active.soulRequirement());
+        Random random = new Random();
+
+        for (int i = 0; i < diff; i++) this.starHudOffsets.add(new Vec2f(random.nextInt(0, 25), i * 15 + random.nextInt(0, 10)));
     }
 
     @Override
     public void serverTick() {
-        StopJade:
         if (player instanceof ExclusiveItemHolder holder && holder.circuitCore$itemAllowed(ModItems.ASTRAL_WYRMTOOTH.build())) {
             for (AstralWyrmtoothTier tier : AsterismConstants.AstralWyrmtooth.tiers) {
                 if (souls >= AsterismConstants.SOUL_UPGRADE_REQUIREMENT && !tier.upgraded() && syncedWyrmtoothTier < 7) {
@@ -51,18 +66,14 @@ public class PlayerComponent implements AutoSyncedComponent, ServerTickingCompon
                 if (AsterismConstants.AstralWyrmtooth.tiers.getLast() == tier) {
                     if (souls < tier.soulRequirement()) {
                         tier.disable().accept(player);
-                        break StopJade;
-                    }
-                    else if (syncedWyrmtoothTier != AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier) || tier.runAlways()) {
+                    } else if (syncedWyrmtoothTier != AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier) || tier.runAlways()) {
                         if (tier.enable().apply(player)) setSyncedWyrmtoothTier(AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier));
                     }
                 } else {
                     AstralWyrmtoothTier next = AsterismConstants.AstralWyrmtooth.tiers.get(AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier) + 1);
                     if (souls < tier.soulRequirement() || (souls >= next.soulRequirement() && tier.removeOnHigherTiers())) {
                         tier.disable().accept(player);
-                        break StopJade;
-                    }
-                    else if (syncedWyrmtoothTier != AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier) || tier.runAlways()) {
+                    } else if (syncedWyrmtoothTier != AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier) || tier.runAlways()) {
                         if (tier.enable().apply(player))
                             setSyncedWyrmtoothTier(AsterismConstants.AstralWyrmtooth.tiers.indexOf(tier));
                     }

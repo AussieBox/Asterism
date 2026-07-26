@@ -1,7 +1,9 @@
 package org.aussiebox.asterism;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.util.Identifier;
+import org.aussiebox.asterism.command.MainCommand;
 import org.aussiebox.asterism.component.ModDataComponentTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,5 +19,9 @@ public class Asterism implements ModInitializer {
     @Override
     public void onInitialize() {
         ModDataComponentTypes.init();
+
+        CommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess, environment) -> {
+            MainCommand.register(dispatcher, registryAccess);
+        }));
     }
 }

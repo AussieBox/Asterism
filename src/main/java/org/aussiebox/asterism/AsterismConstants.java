@@ -1,5 +1,6 @@
 package org.aussiebox.asterism;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
@@ -25,6 +26,16 @@ public interface AsterismConstants {
     int SOUL_UPGRADE_REQUIREMENT = 30;
     TagKey<Item> HELLFIRE_TOOL_MATERIALS = TagKey.of(RegistryKeys.ITEM, Asterism.id("hellfire_tool_materials"));
 
+    interface Textures {
+        interface Hud {
+            Identifier WHITE = Asterism.id("textures/white.png");
+            interface AstralWyrmtooth {
+                Identifier STAR_BIG = Asterism.id("textures/gui/hud/astral_wyrmtooth/star_big.png");
+                Identifier STAR_SMALL = Asterism.id("textures/gui/hud/astral_wyrmtooth/star_small.png");
+            }
+        }
+    }
+
     interface AstralWyrmtooth {
         Identifier HEALTH = Asterism.id("astral_wyrmtooth/health");
         Identifier MINING_FATIGUE = Asterism.id("astral_wyrmtooth/mining_fatigue");
@@ -40,11 +51,12 @@ public interface AsterismConstants {
             EntityAttributeModifier attackSpeedMod = new EntityAttributeModifier(MINING_FATIGUE, -0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL); // Imitates Mining Fatigue
             EntityAttributeModifier movementSpeedMod = new EntityAttributeModifier(SPEED, -0.15F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL); // Imitates Slowness
 
-            if (health != null) health.addPersistentModifier(healthMod);
-            if (attackSpeed != null) attackSpeed.addPersistentModifier(attackSpeedMod);
-            if (movementSpeed != null) movementSpeed.addPersistentModifier(movementSpeedMod);
-
-            return true;
+            if (health != null && attackSpeed != null && movementSpeed != null && !health.hasModifier(HEALTH) && !attackSpeed.hasModifier(MINING_FATIGUE) && !movementSpeed.hasModifier(SPEED)) {
+                health.addPersistentModifier(healthMod);
+                attackSpeed.addPersistentModifier(attackSpeedMod);
+                movementSpeed.addPersistentModifier(movementSpeedMod);
+                return true;
+            } else return false;
         }, player -> {
             EntityAttributeInstance health = player.getAttributes().getCustomInstance(EntityAttributes.MAX_HEALTH);
             EntityAttributeInstance attackSpeed = player.getAttributes().getCustomInstance(EntityAttributes.ATTACK_SPEED);
@@ -164,11 +176,12 @@ public interface AsterismConstants {
             EntityAttributeModifier attackSpeedMod = new EntityAttributeModifier(MINING_FATIGUE, -0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL); // Imitates Mining Fatigue
             EntityAttributeModifier movementSpeedMod = new EntityAttributeModifier(SPEED, -0.30F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL); // Imitates Slowness II
 
-            if (health != null) health.addPersistentModifier(healthMod);
-            if (attackSpeed != null) attackSpeed.addPersistentModifier(attackSpeedMod);
-            if (movementSpeed != null) movementSpeed.addPersistentModifier(movementSpeedMod);
-
-            return true;
+            if (health != null && attackSpeed != null && movementSpeed != null && !health.hasModifier(HEALTH) && !attackSpeed.hasModifier(MINING_FATIGUE) && !movementSpeed.hasModifier(SPEED)) {
+                health.addPersistentModifier(healthMod);
+                attackSpeed.addPersistentModifier(attackSpeedMod);
+                movementSpeed.addPersistentModifier(movementSpeedMod);
+                return true;
+            } else return false;
         }, player -> {
             EntityAttributeInstance health = player.getAttributes().getCustomInstance(EntityAttributes.MAX_HEALTH);
             EntityAttributeInstance attackSpeed = player.getAttributes().getCustomInstance(EntityAttributes.ATTACK_SPEED);
@@ -188,7 +201,7 @@ public interface AsterismConstants {
             }
         }, false, false, true);
 
-        // Ignore Tier 8 as True Tier 7 fills its slot (and it just removes Tier 7's effects anyway)
+        /// Ignore Tier 8 as True Tier 7 fills its slot (and it just removes Tier 7's effects anyway)
 
         AstralWyrmtoothTier TIER_9 = new AstralWyrmtoothTier(32, player -> {
             AsterismUtil.executeForAllOfItem(player, ModItems.ASTRAL_WYRMTOOTH.build(), stack -> AsterismUtil.addEnchantment(player, stack, Enchantments.SHARPNESS, 2));
@@ -218,9 +231,11 @@ public interface AsterismConstants {
             EntityAttributeModifier movementSpeedMod = new EntityAttributeModifier(SPEED, 0.6F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
             EntityAttributeModifier strengthMod = new EntityAttributeModifier(STRENGTH, 6.0F, EntityAttributeModifier.Operation.ADD_VALUE);
 
-            if (movementSpeed != null && !movementSpeed.hasModifier(SPEED)) movementSpeed.addPersistentModifier(movementSpeedMod);
-            if (strength != null && !strength.hasModifier(STRENGTH)) strength.addPersistentModifier(strengthMod);
-            return true;
+            if (movementSpeed != null && strength != null && !movementSpeed.hasModifier(SPEED) && !strength.hasModifier(STRENGTH)) {
+                movementSpeed.addPersistentModifier(movementSpeedMod);
+                strength.addPersistentModifier(strengthMod);
+                return true;
+            } else return false;
         }, player -> {
             EntityAttributeInstance movementSpeed = player.getAttributes().getCustomInstance(EntityAttributes.MOVEMENT_SPEED);
             EntityAttributeInstance strength = player.getAttributes().getCustomInstance(EntityAttributes.ATTACK_DAMAGE);
@@ -235,7 +250,7 @@ public interface AsterismConstants {
             }
         }, false, false, false);
 
-        // Tier 12 handled in loop
+        /// Tier 12 handled in loop
 
         List<AstralWyrmtoothTier> tiers = new ArrayList<>(List.of(TIER_0, TIER_1, TIER_2, TIER_3, TIER_4, TIER_5, TIER_6, TIER_7, TIER_7_TRUE, TIER_9, TIER_10, TIER_11));
     }
